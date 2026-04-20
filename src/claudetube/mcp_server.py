@@ -61,6 +61,10 @@ from claudetube.operations.extract_frames import (
     extract_frames as get_frames_at,
 )
 from claudetube.operations.extract_frames import (
+    extract_frames_local,
+    extract_hq_frames_local,
+)
+from claudetube.operations.extract_frames import (
     extract_hq_frames as get_hq_frames_at,
 )
 from claudetube.operations.factory import get_factory
@@ -369,15 +373,31 @@ async def get_frames(
     except FileNotFoundError as e:
         return json.dumps({"error": str(e), "video_id": video_id})
 
-    frames = await asyncio.to_thread(
-        get_frames_at,
-        video_id_or_url,
-        start_time=start_time,
-        duration=duration,
-        interval=interval,
-        output_base=get_cache_dir(),
-        quality=quality,
-    )
+    # Route based on source type: local files bypass URL-based download path
+    cache = CacheManager(get_cache_dir())
+    state = cache.get_state(video_id)
+    is_local = state is not None and state.source_type == "local"
+
+    if is_local:
+        frames = await asyncio.to_thread(
+            extract_frames_local,
+            video_id,
+            start_time=start_time,
+            duration=duration,
+            interval=interval,
+            quality=quality,
+            output_base=get_cache_dir(),
+        )
+    else:
+        frames = await asyncio.to_thread(
+            get_frames_at,
+            video_id_or_url,
+            start_time=start_time,
+            duration=duration,
+            interval=interval,
+            output_base=get_cache_dir(),
+            quality=quality,
+        )
 
     # Record frame examination for progressive learning
     enrichment = None
@@ -434,15 +454,31 @@ async def get_hq_frames(
     except FileNotFoundError as e:
         return json.dumps({"error": str(e), "video_id": video_id})
 
-    frames = await asyncio.to_thread(
-        get_hq_frames_at,
-        video_id_or_url,
-        start_time=start_time,
-        duration=duration,
-        interval=interval,
-        output_base=get_cache_dir(),
-        width=width,
-    )
+    # Route based on source type: local files bypass URL-based download path
+    cache = CacheManager(get_cache_dir())
+    state = cache.get_state(video_id)
+    is_local = state is not None and state.source_type == "local"
+
+    if is_local:
+        frames = await asyncio.to_thread(
+            extract_hq_frames_local,
+            video_id,
+            start_time=start_time,
+            duration=duration,
+            interval=interval,
+            width=width,
+            output_base=get_cache_dir(),
+        )
+    else:
+        frames = await asyncio.to_thread(
+            get_hq_frames_at,
+            video_id_or_url,
+            start_time=start_time,
+            duration=duration,
+            interval=interval,
+            output_base=get_cache_dir(),
+            width=width,
+        )
 
     # Record frame examination for progressive learning
     enrichment = None
