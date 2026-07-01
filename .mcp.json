@@ -2,8 +2,12 @@
   "mcpServers": {
     "claudetube": {
       "type": "stdio",
-      "command": "claudetube-mcp",
-      "args": [],
+      "command": "uvx",
+      "args": [
+        "--from",
+        "claudetube[mcp] @ git+https://github.com/cowboyonm4rs/claudetube.git@fix/local-video-frame-extraction",
+        "claudetube-mcp"
+      ],
       "env": {}
     }
   }

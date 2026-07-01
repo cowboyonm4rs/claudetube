@@ -1,0 +1,21 @@
+{
+  "name": "claudetube",
+  "version": "1.0.0",
+  "description": "Process and analyze online videos with transcripts, frame extraction, scene detection, and intelligent video Q&A. Supports 1500+ video sites via yt-dlp (YouTube, Vimeo, TikTok, Twitter/X, and more).",
+  "author": {
+    "name": "Daniel Barrett",
+    "url": "https://github.com/thoughtpunch/claudetube"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/cowboyonm4rs/claudetube",
+  "homepage": "https://github.com/thoughtpunch/claudetube",
+  "keywords": [
+    "youtube",
+    "video",
+    "transcription",
+    "analysis",
+    "mcp",
+    "whisper",
+    "yt-dlp"
+  ]
+}
