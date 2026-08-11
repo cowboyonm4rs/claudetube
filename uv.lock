@@ -721,7 +721,7 @@ requires-dist = [
     { name = "faster-whisper", specifier = ">=1.0.0" },
     { name = "google-generativeai", marker = "extra == 'google'", specifier = ">=0.5.0" },
     { name = "litellm", marker = "extra == 'litellm'", specifier = ">=1.0.0" },
-    { name = "mcp", marker = "extra == 'mcp'", specifier = ">=1.2.0" },
+    { name = "mcp", marker = "extra == 'mcp'", specifier = ">=1.2.0,<2" },
     { name = "mypy", marker = "extra == 'dev'" },
     { name = "numpy", specifier = ">=1.24.0" },
     { name = "ollama", marker = "extra == 'ollama'", specifier = ">=0.3.0" },

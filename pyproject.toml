@@ -39,7 +39,12 @@ dependencies = [
 
 [project.optional-dependencies]
 mcp = [
-    "mcp>=1.2.0",
+    # Upper bound is required: mcp_server.py imports `mcp.server.fastmcp`, which
+    # the SDK removed in 2.0.0 (the equivalent now lives under mcp.server.mcpserver).
+    # Without the bound, a fresh resolve picks 2.x and the server dies at import
+    # with ModuleNotFoundError before it can speak a single JSON-RPC frame.
+    # Lift this only together with a port of mcp_server.py to the 2.x API.
+    "mcp>=1.2.0,<2",
 ]
 ocr = [
     "easyocr>=1.7.0",
