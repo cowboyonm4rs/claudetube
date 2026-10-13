@@ -27,6 +27,9 @@ classifiers = [
 dependencies = [
     "yt-dlp>=2026.01.15",
     "faster-whisper>=1.0.0",
+    # faster-whisper 1.2.1 opens audio with av.open(..., metadata_errors="ignore"),
+    # an argument PyAV 19 removed; its released versions do not guard it.
+    "av<19",
     "pysubs2>=1.6.0",
     "pyyaml>=6.0",
     "scikit-learn>=1.0.0",
